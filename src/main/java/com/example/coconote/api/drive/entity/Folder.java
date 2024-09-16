@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,11 +27,17 @@ public class Folder extends BaseEntity {
     @JoinColumn(name = "parent_folder_id")
     private Folder parentFolder;
 
-    @OneToMany(mappedBy = "parentFolder")
-    private List<Folder> childFolders;
+//    부모가 삭제되면 자식도 삭제하기 위해 cascade 설정
+//    orphanRemoval = true 설정으로 부모가 삭제되면 자식도 삭제
+//    nullpointerexception 방지를 위해 ArrayList로 초기화
+    @OneToMany(mappedBy = "parentFolder" ,cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Folder> childFolders = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Channel channel;
 
 
+    public void changeFolderName(String folderName) {
+        this.folderName = folderName;
+    }
 }
