@@ -245,6 +245,10 @@ public class SearchService {
     public SearchResultWithTotal<FileSearchResultDto> searchFiles(Long workspaceId, String keyword, int page, int size) {
         String alias = getAliasForWorkspace(workspaceId);
         SearchResponse<FileEntityDocument> response = searchDocumentsForMultipleFields(alias, keyword, List.of("fileName"), FileEntityDocument.class, page, size);
+        if (response.hits().hits().isEmpty()) {
+            return new SearchResultWithTotal<>(List.of(), 0L); // 검색 결과가 없을 경우 빈 리스트 반환
+        }
+        // 각 hit의 세부 정보 출력
         Channel channel = channelRepository.findById(response.hits().hits().get(0).source().getChannelId())
                 .orElseThrow(() -> new EntityNotFoundException("Channel not found with ID: " + response.hits().hits().get(0).source().getChannelId()));
         // DTO로 변환
