@@ -92,15 +92,21 @@ tasks.named('test') {
 
 jib {
     from {
-        image = 'openjdk:17-slim'
+        image = 'arm64v8/openjdk:17-slim' // ARM 아키텍처에 맞는 베이스 이미지 사용
+        platforms {
+            platform {
+                architecture = 'arm64'  // ARM 아키텍처
+                os = 'linux'
+            }
+        }
     }
     to {
-        image = 'coconote/coconote_be' // 도커 허브 계정명/이미지명
+        image = 'coconote/coconote-be' // 도커 허브 계정명/이미지명
         tags = ['latest']
     }
     container {
         ports = ['8080']
-        environment = ['SPRING_PROFILES_ACTIVE': 'dev'] // 환경 변수
+        environment = ['SPRING_PROFILES_ACTIVE': 'prod'] // 환경 변수
         mainClass = 'com.example.coconote.CoconoteApplication' // 메인 클래스
     }
 }

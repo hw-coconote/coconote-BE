@@ -5,7 +5,7 @@ metadata:
   name: coconote-backend
   namespace: default
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: coconote-backend
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: coconote-backend
-          image: 730335516193.dkr.ecr.ap-northeast-2.amazonaws.com/coconote/coconote_be:latest
+          image: coconote/coconote-be:latest  # Docker Hub 이미지로 변경
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

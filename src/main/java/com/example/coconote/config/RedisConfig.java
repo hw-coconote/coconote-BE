@@ -18,23 +18,28 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-//    @Value("${spring.data.redis.host}")
-    @Value("${REDIS_HOST}")
+    @Value("${spring.data.redis.host}")
+//    @Value("${REDIS_HOST}")
 //    @Value("${spring.data.redis.host}")
     private String redisHost;
 
-//    @Value("${spring.data.redis.port}")
-    @Value("${REDIS_PORT}")
+    @Value("${spring.data.redis.port}")
+//    @Value("${REDIS_PORT}")
 //    @Value("${spring.data.redis.port}")
 
     private int redisPort;
+
+    @Value("${spring.data.redis.password}")
+    private String redisPassword;  // 비밀번호 추가
 
     @Bean
     @Primary
     public RedisConnectionFactory defaultRedisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(redisHost);  // 환경 변수에서 Redis 호스트 설정
+        config.setUsername("default");  // 필요 시 username 추가
         config.setPort(redisPort);  // 환경 변수에서 Redis 포트 설정
+        config.setPassword(redisPassword);  // 비밀번호 설정
         config.setDatabase(0);
         return new LettuceConnectionFactory(config);
     }
@@ -52,7 +57,9 @@ public class RedisConfig {
     public RedisConnectionFactory notificationRedisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(redisHost);  // 환경 변수에서 Redis 호스트 설정
+        config.setUsername("default");  // 필요 시 username 추가
         config.setPort(redisPort);  // 환경 변수에서 Redis 포트 설정
+        config.setPassword(redisPassword);  // 비밀번호 설정
         config.setDatabase(1);
         return new LettuceConnectionFactory(config);
     }
@@ -70,7 +77,9 @@ public class RedisConfig {
     public RedisConnectionFactory sectionRedisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(redisHost);  // 환경 변수에서 Redis 호스트 설정
+        config.setUsername("default");  // 필요 시 username 추가
         config.setPort(redisPort);  // 환경 변수에서 Redis 포트 설정
+        config.setPassword(redisPassword);  // 비밀번호 설정
         config.setDatabase(2);
         return new LettuceConnectionFactory(config);
     }

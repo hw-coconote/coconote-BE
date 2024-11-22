@@ -4,12 +4,12 @@ kind: Deployment
 metadata:
   name: coconote-backend
 spec:
-  replicas: 2  # Prod 환경에서는 더 높은 가용성을 위해 3개로 설정
+  replicas: 1 # Prod 환경에서는 더 높은 가용성을 위해 3개로 설정
   template:
     spec:
       containers:
         - name: coconote-backend
-          image: 730335516193.dkr.ecr.ap-northeast-2.amazonaws.com/coconote/coconote_be:v82
+          image: coconote/coconote-be:latest  # Docker Hub 이미지로 변경
           imagePullPolicy: Always  # latest 태그의 이미지를 항상 가져오도록 설정
           env:
             - name: SPRING_PROFILES_ACTIVE

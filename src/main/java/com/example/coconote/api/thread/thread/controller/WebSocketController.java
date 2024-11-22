@@ -64,6 +64,7 @@ public class WebSocketController {
             threadResDto = threadService.createThread(threadReqDto,threadReqDto.getSenderId());
         }
 
+        log.info("Sending message to Kafka: {}", threadResDto);
         kafkaTemplate.send("chat_topic", threadResDto);
     }
 
@@ -72,6 +73,7 @@ public class WebSocketController {
         ObjectMapper objectMapper = new ObjectMapper();
         ThreadResDto threadResDto;
 
+        log.info("Received message from Kafka: {}", message);
         try {
             threadResDto = objectMapper.readValue(message, ThreadResDto.class);
         } catch (JsonProcessingException e) {
